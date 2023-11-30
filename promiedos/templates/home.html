@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="column">
+    {% for liga in ligas %}
+    <div class="liga-item">
+        <a href=" {% url 'liga_detail' liga.id %}">{{liga.name}}</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% for partido in partidos %}
+<div>
+    <a href=''>{{partido}}</a>
+</div>
+{% endfor %}
+
+{% endblock content %}
+
+
+{% comment %} {% url "partidos_detail" %} {% endcomment %}

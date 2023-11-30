@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main class="container">
+    <div class="column">
+        <h1> {{liga.name}} </h1>
+    </div>
+
+    <div>
+        {% for equipo in equipos %}
+        <ul>
+            <li>
+                {{equipo.team_name}} - {{equipo.team_points}}
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+</main>
+
+
+
+{% endblock content %}

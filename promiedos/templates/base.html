@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prosustos</title>
+</head>
+<body>
+    
+    <main class="container">
+    
+        <h1>
+            <a href=" {% url 'home' %} ">Prosustos</a>
+        </h1>
+
+        {% if user.is_authenticated %}
+
+                    <li>
+                        <a href=" {% url 'crear_partido' %} ">Agregar partidos</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{% url 'signout' %}"  class="nav-link">Logout</a>
+                    </li>
+                    {% else %}
+                        
+                    <li class="nav-item">
+                        <a href="{% url 'signup' %}"  class="nav-link">Sign up</a>
+                    </li>
+                    
+                    
+                    <li class="nav-item">
+                        <a href="{% url 'signin' %}"  class="nav-link">Sign in</a>
+                    </li>
+                        
+                    {% endif %}
+        <ul>
+            
+        </ul>
+    </main>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
