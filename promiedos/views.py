@@ -88,3 +88,6 @@ def crear_partido(request):
                 return render(request, 'crear_partido.html', {'form': form, 'error': 'Check and provide valid data'})
         except ValueError:
             return render(request, 'crear_partido.html', {'form': CrearPartido, 'error': 'Check and provide valid data', })
+
+def partido_detail(request, partido_id):
+    return render(request, 'partido_detail.html')

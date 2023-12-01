@@ -45,6 +45,7 @@ class Partido(models.Model):
         Equipo, related_name='partidos_visitante', on_delete=models.CASCADE)
     goles_local = models.IntegerField(default=0)
     goles_visitante = models.IntegerField(default=0)
+    finished = models.BooleanField(default=False)
 
     def __str__(self):
         formatted_date = self.date.strftime("%d-%m %H:%M")
