@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <div class="">
+            
+            <h1>{{partido.local}} vs {{partido.visitante}}</h1>
+            
+            <div class="teams-detail">
+                <div class="local_detail">
+                    {{local.team_name}}
+                    {% for jugador in jugadores_local %}
+                    <ul>
+                        <li>
+                            <p>
+                            {{jugador.player_name}}
+                            </p>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+
+                <div class="visitante_detail">
+                    {{visitante.team_name}}
+                    {% for jugador in jugadores_visitante %}
+                    <ul>
+                        <li>
+                            <p>
+                            {{jugador.player_name}}
+                            </p>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+{% endblock content %}

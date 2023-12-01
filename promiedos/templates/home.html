@@ -12,7 +12,7 @@
 
 {% for partido in partidos %}
 <div>
-    <a href=''>{{partido}}</a>
+    <a href=" {% url 'partido_detail' partido.id %} ">{{partido}}</a>
 </div>
 {% endfor %}
 

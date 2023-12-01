@@ -89,5 +89,15 @@ def crear_partido(request):
         except ValueError:
             return render(request, 'crear_partido.html', {'form': CrearPartido, 'error': 'Check and provide valid data', })
 
+
 def partido_detail(request, partido_id):
-    return render(request, 'partido_detail.html')
+
+    partido = get_object_or_404(Partido, pk=partido_id)
+
+    local = partido.local
+    visitante = partido.visitante
+
+    jugadores_local = Jugador.objects.filter(equipo_jugador=local)
+    jugadores_visitante = Jugador.objects.filter(equipo_jugador=visitante)
+
+    return render(request, 'partido_detail.html', {'partido': partido, 'local': local, 'visitante': visitante, 'jugadores_local': jugadores_local, 'jugadores_visitante': jugadores_visitante, })
