@@ -68,7 +68,7 @@ def signin(request):
 
 def liga_detail(request, liga_id):
     liga = get_object_or_404(Liga, pk=liga_id)
-    equipos = Equipo.objects.filter(team_league=liga)
+    equipos = Equipo.objects.filter(team_league=liga).order_by('team_points')
     return render(request, 'liga_detail.html', {'liga': liga, 'equipos': equipos, })
 
 
@@ -91,14 +91,49 @@ def crear_partido(request):
 
 
 def partido_detail(request, partido_id):
-    user = request.user
+    if request.method == 'GET':
+        partido = get_object_or_404(Partido, pk=partido_id)
+        form = CrearPartido(instance=partido)
+        user = request.user
+        local = partido.local
+        visitante = partido.visitante
+        jugadores_local = Jugador.objects.filter(
+            equipo_jugador=local)
+        jugadores_visitante = Jugador.objects.filter(
+            equipo_jugador=visitante)
 
+        return render(request, 'partido_detail.html', {'partido': partido, 'local': local, 'visitante': visitante, 'jugadores_local': jugadores_local, 'jugadores_visitante': jugadores_visitante, 'user': user, 'form': form, })
+    elif request.method == 'POST':
+        try:
+            partido = get_object_or_404(Partido, pk=partido_id)
+            form = CrearPartido(request.POST, instance=partido)
+            form.save()
+            return redirect('home')
+        except ValueError:
+            return render(request, 'partido_detail.html', {'partido': partido, 'local': local, 'visitante': visitante, 'jugadores_local': jugadores_local, 'jugadores_visitante': jugadores_visitante, 'user': user, 'form': form, 'error': 'An error has ocurred, please verify the data'})
+
+
+def partido_finished(request, partido_id):
     partido = get_object_or_404(Partido, pk=partido_id)
+    if request.method == "POST":
+        partido.finished = True
 
-    local = partido.local
-    visitante = partido.visitante
+        if partido.goles_local > partido.goles_visitante:
+            partido.local.team_points += 3
+            print("Local team won")
+        elif partido.goles_local < partido.goles_visitante:
+            partido.visitante.team_points += 3
+            print("visitante team won")
+        elif partido.goles_local == partido.goles_visitante:
+            partido.local.team_points += 1
+            partido.visitante.team_points += 1
+            print("Empate")
 
-    jugadores_local = Jugador.objects.filter(equipo_jugador=local)
-    jugadores_visitante = Jugador.objects.filter(equipo_jugador=visitante)
+        try:
+            partido.full_clean()
+            partido.save()
+            return redirect('home')
+        except ValueError as e:
+            print("Validation error:", e)
 
-    return render(request, 'partido_detail.html', {'partido': partido, 'local': local, 'visitante': visitante, 'jugadores_local': jugadores_local, 'jugadores_visitante': jugadores_visitante, 'user': user, })
+        return redirect('home')

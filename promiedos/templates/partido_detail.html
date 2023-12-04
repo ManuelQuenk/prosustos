@@ -2,17 +2,67 @@
 
 {% block content %}
 <main class="container">
+    
     <div class="row">
-        <div class="">
+        
+        {% if user.is_superuser %}
+            <h1>Hello {{user}}</h1>
+            <div class="match-form">
+                <h1>{{partido.local}} - {{partido.visitante}}</h1>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{error}}
+                        {{ form.as_p }}
+                        <form action="{% url 'partido_finished' partido.id %} " method="POST">
+                            <button type="submit">Save</button>
+                        </form>
+                    </form>
+{% comment %} 
+                    <div class="">
+                        <form action=" {% url 'partido_finished' partido.id %} " method="POST">
+                            {% csrf_token %}
+                            <button>
+                                Finished
+                            </button>
+                        </form>
+                    </div> {% endcomment %}
 
-            {% if user.is_superuser %}
-                <h1>Hello {{user}}</h1>
-            {% else %}
-                <h1>Hello not so special {{user}} </h1>
-                
-            <h1>{{partido.local}} vs {{partido.visitante}}</h1>
+                    <div class="team-details">
+                        <div class="local_detail">
+                            {{local.team_name}}
+                            {% for jugador in jugadores_local %}
+                                <ul>
+                                    <li>
+                                        <p>
+                                        {{jugador.player_name}}
+                                        {{jugador.age}}
+                                        {{jugador.role}}
+                                        </p>
+                                    </li>
+                                </ul>
+                            {% endfor %}
+                        </div>
 
+                        <div class="visitante_detail">
+
+                            {{visitante.team_name}}
+                            {% for jugador in jugadores_visitante %}
+                                <ul>
+                                    <li>
+                                        <p>
+                                        {{jugador.player_name}}
+                                        {{jugador.age}}
+                                        {{jugador.role}}
+                                        </p>
+                                    </li>
+                                </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+            </div>
+        {% else %}
             <div class="scoreboard">
+                <h1>{{partido.local}} - {{partido.visitante}}</h1>
                 <p>{{partido.goles_local}} - {{partido.goles_visitante}}</p>
             </div>
             
@@ -35,23 +85,20 @@
                 <div class="visitante_detail">
                     {{visitante.team_name}}
                     {% for jugador in jugadores_visitante %}
-                    <ul>
-                        <li>
-                            <p>
-                            {{jugador.player_name}}
-                            {{jugador.age}}
-                            {{jugador.role}}
-                            </p>
-                        </li>
-                    </ul>
+                        <ul>
+                            <li>
+                                <p>
+                                {{jugador.player_name}}
+                                {{jugador.age}}
+                                {{jugador.role}}
+                                </p>
+                            </li>
+                        </ul>
                     {% endfor %}
                 </div>
-            </div>
-            
-            {% endif %}
-            
-
-        </div>
+            </div>            
+        {% endif %}
     </div>
-</main>
+
+</main> 
 {% endblock content %}

@@ -21,10 +21,10 @@ class Equipo(models.Model):
 
 class Jugador(models.Model):
     ROLE_CHOICES = [
-        ('ARQ', 'ARQ'),
-        ('DEF', 'DEF'),
-        ('MD', 'MD'),
-        ('DC', 'DC'),
+        ('ARQ', 1),
+        ('DEF', 2),
+        ('MD', 3),
+        ('DC', 4),
     ]
 
     player_name = models.CharField(max_length=200)
