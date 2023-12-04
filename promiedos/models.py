@@ -21,17 +21,17 @@ class Equipo(models.Model):
 
 class Jugador(models.Model):
     ROLE_CHOICES = [
-        (1, 'ARQ'),
-        (2, 'DEF'),
-        (3, 'MD'),
-        (4, 'DC'),
+        ('ARQ', 'ARQ'),
+        ('DEF', 'DEF'),
+        ('MD', 'MD'),
+        ('DC', 'DC'),
     ]
 
     player_name = models.CharField(max_length=200)
     age = models.PositiveIntegerField()
-    role = models.IntegerField(choices=ROLE_CHOICES)
+    role = models.CharField(max_length=3, choices=ROLE_CHOICES)
     equipo_jugador = models.ForeignKey(
-        Equipo, on_delete=models.CASCADE, default=1)
+        Equipo, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
         return self.player_name + ' - ' + self.equipo_jugador.team_name

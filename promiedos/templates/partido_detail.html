@@ -4,8 +4,17 @@
 <main class="container">
     <div class="row">
         <div class="">
-            
+
+            {% if user.is_superuser %}
+                <h1>Hello {{user}}</h1>
+            {% else %}
+                <h1>Hello not so special {{user}} </h1>
+                
             <h1>{{partido.local}} vs {{partido.visitante}}</h1>
+
+            <div class="scoreboard">
+                <p>{{partido.goles_local}} - {{partido.goles_visitante}}</p>
+            </div>
             
             <div class="teams-detail">
                 <div class="local_detail">
@@ -15,6 +24,8 @@
                         <li>
                             <p>
                             {{jugador.player_name}}
+                            {{jugador.age}}
+                            {{jugador.role}}
                             </p>
                         </li>
                     </ul>
@@ -28,12 +39,17 @@
                         <li>
                             <p>
                             {{jugador.player_name}}
+                            {{jugador.age}}
+                            {{jugador.role}}
                             </p>
                         </li>
                     </ul>
                     {% endfor %}
                 </div>
             </div>
+            
+            {% endif %}
+            
 
         </div>
     </div>
