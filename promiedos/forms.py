@@ -10,3 +10,14 @@ class CrearPartido(forms.ModelForm):
         widgets = {
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%d-%mT%H:%M'),
         }
+
+
+def CheckWinner(goles_local, goles_visitante):
+    winner = ""
+    if goles_local > goles_visitante:
+        winner = "local"
+    elif goles_local < goles_visitante:
+        winner = "visitante"
+    elif goles_local == goles_visitante:
+        winner = "empate"
+    return winner

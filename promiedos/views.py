@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Liga, Equipo, Jugador, Partido
-from .forms import CrearPartido
+from .forms import CrearPartido, CheckWinner
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -114,26 +114,40 @@ def partido_detail(request, partido_id):
 
 
 def partido_finished(request, partido_id):
-    partido = get_object_or_404(Partido, pk=partido_id)
     if request.method == "POST":
+        partido = get_object_or_404(Partido, pk=partido_id)
         partido.finished = True
 
-        if partido.goles_local > partido.goles_visitante:
+        winner = CheckWinner(partido.goles_local, partido.goles_visitante)
+
+        if winner == "local":
+            print('equipo local', partido.local)
+            print('antes', partido.local.team_points)
             partido.local.team_points += 3
-            print("Local team won")
-        elif partido.goles_local < partido.goles_visitante:
+            partido.local.team_points.save()
+            print('despues', partido.local.team_points)
+        elif winner == "visitante":
+            print('equipo visitante', partido.visitante)
+            print('antes', partido.visitante.team_points)
             partido.visitante.team_points += 3
-            print("visitante team won")
-        elif partido.goles_local == partido.goles_visitante:
+            print('despues', partido.visitante.team_points)
+        elif winner == "empate":
             partido.local.team_points += 1
             partido.visitante.team_points += 1
-            print("Empate")
+            print(partido.local.team_points)
+            print(partido.visitante.team_points)
+        else:
+            print('Invalid Winner', winner)
 
-        try:
-            partido.full_clean()
-            partido.save()
-            return redirect('home')
-        except ValueError as e:
-            print("Validation error:", e)
-
+        # partido.save()
         return redirect('home')
+        # if partido.goles_local > partido.goles_visitante:
+        #     partido.local.team_points += 3
+        #     print("Local team won")
+        # elif partido.goles_local < partido.goles_visitante:
+        #     partido.visitante.team_points += 3
+        #     print("visitante team won")
+        # elif partido.goles_local == partido.goles_visitante:
+        #     partido.local.team_points += 1
+        #     partido.visitante.team_points += 1
+        #     print("Empate")

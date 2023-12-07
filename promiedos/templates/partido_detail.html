@@ -13,9 +13,14 @@
                         {% csrf_token %}
                         {{error}}
                         {{ form.as_p }}
-                        <form action="{% url 'partido_finished' partido.id %} " method="POST">
-                            <button type="submit">Save</button>
-                        </form>
+                        <button>
+                            Update
+                        </button>
+                    </form>
+
+                    <form action="{% url 'partido_finished' partido.id %} " method="POST">
+                        {% csrf_token %}
+                        <button type="submit">Save</button>
                     </form>
 {% comment %} 
                     <div class="">
