@@ -68,7 +68,7 @@ def signin(request):
 
 def liga_detail(request, liga_id):
     liga = get_object_or_404(Liga, pk=liga_id)
-    equipos = Equipo.objects.filter(team_league=liga).order_by('team_points')
+    equipos = Equipo.objects.filter(league=liga).order_by('points')
     return render(request, 'liga_detail.html', {'liga': liga, 'equipos': equipos, })
 
 
@@ -122,32 +122,32 @@ def partido_finished(request, partido_id):
 
         if winner == "local":
             print('equipo local', partido.local)
-            print('antes', partido.local.team_points)
-            partido.local.team_points += 3
-            partido.local.team_points.save()
-            print('despues', partido.local.team_points)
+            print('antes', partido.local.points)
+            partido.local.points += 3
+            partido.local.points.save()
+            print('despues', partido.local.points)
         elif winner == "visitante":
             print('equipo visitante', partido.visitante)
-            print('antes', partido.visitante.team_points)
-            partido.visitante.team_points += 3
-            print('despues', partido.visitante.team_points)
+            print('antes', partido.visitante.points)
+            partido.visitante.points += 3
+            print('despues', partido.visitante.points)
         elif winner == "empate":
-            partido.local.team_points += 1
-            partido.visitante.team_points += 1
-            print(partido.local.team_points)
-            print(partido.visitante.team_points)
+            partido.local.points += 1
+            partido.visitante.points += 1
+            print(partido.local.points)
+            print(partido.visitante.points)
         else:
             print('Invalid Winner', winner)
 
         # partido.save()
         return redirect('home')
         # if partido.goles_local > partido.goles_visitante:
-        #     partido.local.team_points += 3
+        #     partido.local.points += 3
         #     print("Local team won")
         # elif partido.goles_local < partido.goles_visitante:
-        #     partido.visitante.team_points += 3
+        #     partido.visitante.points += 3
         #     print("visitante team won")
         # elif partido.goles_local == partido.goles_visitante:
-        #     partido.local.team_points += 1
-        #     partido.visitante.team_points += 1
+        #     partido.local.points += 1
+        #     partido.visitante.points += 1
         #     print("Empate")

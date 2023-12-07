@@ -12,8 +12,8 @@ class Liga(models.Model):
 
 class Equipo(models.Model):
     team_name = models.CharField(max_length=200)
-    team_league = models.ForeignKey(Liga, on_delete=models.CASCADE)
-    team_points = models.IntegerField(default=0)
+    league = models.ForeignKey(Liga, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.team_name}'
@@ -27,14 +27,14 @@ class Jugador(models.Model):
         ('DC', 4),
     ]
 
-    player_name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
     age = models.PositiveIntegerField()
     role = models.CharField(max_length=3, choices=ROLE_CHOICES)
     equipo_jugador = models.ForeignKey(
         Equipo, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
-        return self.player_name + ' - ' + self.equipo_jugador.team_name
+        return self.name + ' - ' + self.equipo_jugador.team_name
 
 
 class Partido(models.Model):
