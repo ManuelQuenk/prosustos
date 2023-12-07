@@ -49,4 +49,4 @@ class Partido(models.Model):
 
     def __str__(self):
         formatted_date = self.date.strftime("%d-%m %H:%M")
-        return f'{formatted_date} | {self.local.team_name} {self.goles_local} - {self.goles_visitante} {self.visitante.team_name} | testing: L= {self.local.team_points} v= {self.visitante.team_points}'
+        return f'{formatted_date} | {self.local.team_name} {self.goles_local} - {self.goles_visitante} {self.visitante.team_name}'

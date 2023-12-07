@@ -22,15 +22,6 @@
                         {% csrf_token %}
                         <button type="submit">Save</button>
                     </form>
-{% comment %} 
-                    <div class="">
-                        <form action=" {% url 'partido_finished' partido.id %} " method="POST">
-                            {% csrf_token %}
-                            <button>
-                                Finished
-                            </button>
-                        </form>
-                    </div> {% endcomment %}
 
                     <div class="team-details">
                         <div class="local_detail">
